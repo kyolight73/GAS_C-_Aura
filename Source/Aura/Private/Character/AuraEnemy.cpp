@@ -11,6 +11,13 @@
 AAuraEnemy::AAuraEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	
+	//Ability System
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::HighLightActor()
@@ -20,13 +27,6 @@ void AAuraEnemy::HighLightActor()
 	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 	Weapon->SetRenderCustomDepth(true);
 	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
-
-	//Ability System
-	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
-	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->ReplicationMode(EGameplayEffectReplicationMode::Minimal);
-
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::UnHighLightActor()
@@ -34,4 +34,11 @@ void AAuraEnemy::UnHighLightActor()
 	bHighlighted = false;
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+void AAuraEnemy::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
