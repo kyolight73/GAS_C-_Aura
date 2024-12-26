@@ -13,7 +13,7 @@ UOverlayWidgetController* ADtdHUD::GetOverlayWidgetController(FWidgetControllerP
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
-
+		OverlayWidgetController->BindCallBackToDependencies();
 		return OverlayWidgetController;
 	}
 	return OverlayWidgetController;
@@ -31,6 +31,8 @@ void ADtdHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyste
 	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParams);
 
 	OverlayWidget->SetWidgetController(WidgetController);
+
+	WidgetController->BroadcastInitialValues();
 	
 	Widget->AddToViewport();
 }
