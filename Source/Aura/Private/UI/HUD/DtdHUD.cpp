@@ -9,6 +9,7 @@
 
 UOverlayWidgetController* ADtdHUD::GetOverlayWidgetController(FWidgetControllerParams& WCParams)
 {
+	// If Overlay Widget Controller haven't set, set it, then next time just simple call it.
 	if (OverlayWidgetController == nullptr)
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
@@ -19,6 +20,7 @@ UOverlayWidgetController* ADtdHUD::GetOverlayWidgetController(FWidgetControllerP
 	return OverlayWidgetController;
 }
 
+//  Create Widget, Set the Widget Controller, Broadcast the Attributes initial to widget, then Add widget to Viewport
 void ADtdHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class Uninitialized, Please fill out B_DtdHUD"));
